@@ -1,26 +1,67 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import { css, StyleSheet } from "aphrodite";
+import io from "socket.io-client";
+import LobbyForm from "LobbyForm";
+import Game from "Game";
 
-function App() {
+const socket = io();
+
+type LobbyDetails = {
+  lobbyID: string | null;
+  hostID: string | null;
+  players: Array<Object>;
+};
+
+type Props = Readonly<{}>;
+
+function App(_: Props): React.ReactElement {
+  const [{ lobbyID, hostID, players }, setLobbyDetails] =
+    useState<LobbyDetails>({
+      lobbyID: null,
+      hostID: null,
+      players: [],
+    });
+
+  useEffect(() => {
+    console.log("listening to sockets");
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+
+    socket.on("disconnect", () => {
+      console.log("dcs");
+    });
+
+    socket.on("update_lobby", (lobby) => {
+      setLobbyDetails(lobby);
+      console.log("update_lobby", ...lobby);
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("update_lobby");
+      socket.off("reset_game");
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={css(styles.main)}>
+      <div>Connected to {lobbyID == null ? "(- No Lobby -)" : lobbyID}</div>
+      <div>Host is {hostID}</div>
+      {lobbyID == null && <LobbyForm socket={socket} />}
+      {lobbyID != null && (
+        <Game socket={socket} players={players} lobbyID={lobbyID} />
+      )}
     </div>
   );
 }
+
+const styles = StyleSheet.create({
+  main: {
+    display: "flex",
+    flexDirection: "column",
+  },
+});
 
 export default App;
