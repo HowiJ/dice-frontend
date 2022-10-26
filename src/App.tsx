@@ -1,3 +1,5 @@
+import type { FormEvent } from "react";
+
 import React, { useEffect, useState } from "react";
 import { css, StyleSheet } from "aphrodite";
 import io from "socket.io-client";
@@ -34,7 +36,7 @@ function App(_: Props): React.ReactElement {
 
     socket.on("update_lobby", (lobby) => {
       setLobbyDetails(lobby);
-      console.log("update_lobby", ...lobby);
+      console.log("update_lobby", lobby);
     });
 
     return () => {
@@ -45,13 +47,28 @@ function App(_: Props): React.ReactElement {
     };
   }, []);
 
+  function onCopyClick(e: FormEvent<HTMLButtonElement>): void {
+    if (lobbyID == null) {
+      return;
+    }
+    navigator.clipboard.writeText(lobbyID);
+  }
+
   return (
     <div className={css(styles.main)}>
-      <div>Connected to {lobbyID == null ? "(- No Lobby -)" : lobbyID}</div>
+      <div>
+        Connected to {lobbyID == null ? "(- No Lobby -)" : lobbyID}{" "}
+        {lobbyID != null && <button onClick={onCopyClick}>C</button>}
+      </div>
       <div>Host is {hostID}</div>
       {lobbyID == null && <LobbyForm socket={socket} />}
       {lobbyID != null && (
-        <Game socket={socket} players={players} lobbyID={lobbyID} />
+        <Game
+          socket={socket}
+          players={players}
+          lobbyID={lobbyID}
+          hostID={hostID ?? ""}
+        />
       )}
     </div>
   );

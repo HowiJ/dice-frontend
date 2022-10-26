@@ -9,9 +9,15 @@ type Props = Readonly<{
   players: Array<any>;
   lobbyID: string;
   socket: Socket;
+  hostID: string;
 }>;
 
-function Game({ socket, players, lobbyID }: Props): React.ReactElement | null {
+function Game({
+  socket,
+  players,
+  lobbyID,
+  hostID,
+}: Props): React.ReactElement | null {
   function onReset(e: FormEvent<HTMLButtonElement>): void {
     e.preventDefault();
     socket.emit("reset_game", { lobbyID });
@@ -21,7 +27,12 @@ function Game({ socket, players, lobbyID }: Props): React.ReactElement | null {
     <div className={css(styles.main)}>
       <button onClick={onReset}>Reset Game</button>
       {players.map((player) => (
-        <Player key={player.id} player={player} socket={socket} />
+        <Player
+          key={player.id}
+          player={player}
+          socket={socket}
+          hostID={hostID}
+        />
       ))}
     </div>
   );
