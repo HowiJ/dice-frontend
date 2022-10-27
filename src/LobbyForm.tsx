@@ -9,16 +9,11 @@ type Props = Readonly<{
 }>;
 
 function LobbyForm({ socket }: Props): React.ReactElement | null {
-  const [name, onChangeName] = useFormActions();
   const [lobbyID, onChangeLobbyID] = useFormActions();
 
   function onHost(e: FormEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (name.length < 3) {
-      console.warn("name needs to be minimum 3 characters");
-      return;
-    }
-    socket.emit("join_lobby", { playerName: name, lobbyID: null });
+    socket.emit("join_lobby", { lobbyID: null });
   }
 
   function onJoin(e: FormEvent<HTMLButtonElement>) {
@@ -27,24 +22,12 @@ function LobbyForm({ socket }: Props): React.ReactElement | null {
       console.warn("lobby id is probably more than 3 characters");
       return;
     }
-    if (name.length < 3) {
-      console.warn("name needs to be minimum 3 characters");
-      return;
-    }
-    socket.emit("join_lobby", { playerName: name, lobbyID });
+    socket.emit("join_lobby", { lobbyID });
   }
 
   return (
     <table>
       <tbody>
-        <tr>
-          <td>
-            <label>Name</label>
-          </td>
-          <td>
-            <input placeholder="Name" onChange={onChangeName} value={name} />
-          </td>
-        </tr>
         <tr>
           <td>
             <button onClick={onHost}>Host</button>
