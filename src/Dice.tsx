@@ -3,12 +3,13 @@ import { css, StyleSheet } from "aphrodite";
 
 type Props = Readonly<{
   value: number;
+  isHidden: boolean;
 }>;
 
-function Dice({ value }: Props): React.ReactElement | null {
+function Dice({ value, isHidden }: Props): React.ReactElement | null {
   return (
     <div className={css(styles.main)}>
-      <DiceImg value={value} />
+      <DiceImg value={isHidden ? 100 : value} />
     </div>
   );
 }
@@ -18,6 +19,7 @@ const styles = StyleSheet.create({
     flex: "0 0 auto",
     height: "32px",
     width: "32px",
+    borderRadius: "2px",
   },
 });
 

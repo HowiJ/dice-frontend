@@ -22,6 +22,7 @@ function App(_: Props): React.ReactElement {
       hostID: null,
       players: [],
     });
+  const [viewerID, setViewerID] = useState<string | null>(null);
 
   useEffect(() => {
     console.log("listening to sockets");
@@ -35,7 +36,10 @@ function App(_: Props): React.ReactElement {
 
     socket.on("update_lobby", (lobby) => {
       setLobbyDetails(lobby);
-      console.log("update_lobby", lobby);
+    });
+
+    socket.on("update_viewer", ({ id }) => {
+      setViewerID(id);
     });
 
     return () => {
@@ -55,6 +59,7 @@ function App(_: Props): React.ReactElement {
       {lobbyID != null && (
         <Game
           socket={socket}
+          viewerID={viewerID ?? ""}
           players={players}
           lobbyID={lobbyID}
           hostID={hostID ?? ""}
