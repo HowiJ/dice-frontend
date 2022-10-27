@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { css, StyleSheet } from "aphrodite";
 
 import { ReactComponent as ProfileIcon } from "./static/profile.svg";
-import { ReactComponent as CopyIcon } from "./static/copy.svg";
 
 type UserDetails = {
   name: string;
@@ -22,10 +21,8 @@ const defaultUser = {
 function useProfile(socket: Socket): UserDetails {
   const [userDetails, setUserDetails] = useState<UserDetails>(defaultUser);
   useEffect(() => {
-    console.log("tracking update_viewer");
     socket.on("update_viewer", (userDetails) => {
       setUserDetails(userDetails);
-      console.log(userDetails);
     });
   }, [socket]);
   return userDetails;
@@ -39,6 +36,14 @@ function Profile({ socket }: Props): React.ReactElement {
   const { name, lobbyName } = useProfile(socket);
   const isConnected = lobbyName != null;
 
+  function onCopyClick(e: FormEvent<HTMLButtonElement>): void {
+    e.preventDefault();
+    if (lobbyName == null) {
+      return;
+    }
+    navigator.clipboard.writeText(lobbyName);
+  }
+
   return (
     <div className={css(styles.main)}>
       <div className={css(styles.details)}>
@@ -47,105 +52,61 @@ function Profile({ socket }: Props): React.ReactElement {
         </div>
         {name}
       </div>
-      <div className={css(styles.details)}>
-        <div>
-          <ConnectionStatus isConnected={isConnected} />
-        </div>
-        <div>
-          <span>{isConnected ? `Connected to ` : "Not Connected"}</span>
-          {isConnected && <CopyButton lobbyID={lobbyName} />}
-          <div> {lobbyName}</div>
-        </div>
+      <div>
+        <button
+          onClick={onCopyClick}
+          className={css(
+            styles.details,
+            styles.copyButton,
+            isConnected ? styles.isConnected : styles.notConnected
+          )}
+        >
+          <div>
+            <span>{isConnected ? `Connected to ` : "Not Connected"}</span>
+            <div> {lobbyName}</div>
+          </div>
+        </button>
       </div>
     </div>
   );
 }
 
-type CopyButtonProps = Readonly<{
-  lobbyID: string;
-}>;
-
-function CopyButton({ lobbyID }: CopyButtonProps): React.ReactElement {
-  function onCopyClick(e: FormEvent<HTMLButtonElement>): void {
-    e.preventDefault();
-    if (lobbyID == null) {
-      return;
-    }
-    navigator.clipboard.writeText(lobbyID);
-  }
-
-  return (
-    <button className={css(styles.copyButton)} onClick={onCopyClick}>
-      <div className={css(styles.picture)}>
-        <CopyIcon />
-      </div>
-    </button>
-  );
-}
-
-type ConnectionStatusProps = Readonly<{
-  isConnected: boolean;
-}>;
-
-function ConnectionStatus({
-  isConnected,
-}: ConnectionStatusProps): React.ReactElement {
-  return (
-    <div
-      className={css(
-        styles.connectionStatus,
-        isConnected ? styles.isConnected : styles.notConnected
-      )}
-    />
-  );
-}
-
 const styles = StyleSheet.create({
   main: {
-    // borderRadius: "100px",
     padding: "16px",
     background: "#EEEEEE",
-    // position: "absolute",
-    // right: "0px",
+    gap: "4px",
     fontSize: "12px",
-    // justifyContent: 'space-between',
-    // display: "flex",
+    display: "flex",
+    justifyContent: "space-between",
   },
   details: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     gap: "4px",
+    fontSize: "16px",
   },
   picture: {
-    width: 16,
-    height: 16,
-  },
-  connectionStatus: {
-    border: "1px solid black",
-    display: "inline-block",
-    verticalAlign: "middle",
-    // borderRadius: 100,
-    // height: 4,
-    // width: 4,
-    width: "16px",
+    width: 32,
+    height: 32,
   },
   isConnected: {
-    background: "green",
+    borderRight: "4px solid green",
+    borderLeft: "4px solid green",
   },
   notConnected: {
-    background: "red",
+    borderRight: "4px solid red",
+    borderLeft: "4px solid red",
   },
   copyButton: {
     fontSize: "12px",
-    background: "#DDDDDD",
     border: "none",
-    borderRadius: "4px",
     ":hover": {
-      background: "#AAAAAA",
+      background: "#DDDDDD",
     },
     ":active": {
-      background: "#777777",
+      background: "#CCCCCC",
     },
   },
 });
