@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type Theme from "common/TTheme";
 
 import React from "react";
 import { css, StyleSheet } from "aphrodite";
@@ -6,7 +6,6 @@ import arrowBlue from "static/arrow-blue.png";
 import arrowPurple from "static/arrow-purple.png";
 
 type Background = "transparent" | "solid";
-type Theme = "blue" | "purple";
 type Icon = "arrow-blue" | "arrow-purple";
 
 type Props = Readonly<{
