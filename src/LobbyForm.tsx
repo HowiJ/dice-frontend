@@ -10,22 +10,6 @@ type Props = Readonly<{
 }>;
 
 function LobbyForm({ socket }: Props): React.ReactElement | null {
-  const [lobbyID, onChangeLobbyID] = useFormActions();
-
-  function onHost(e: FormEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    socket.emit("join_lobby", { lobbyID: null });
-  }
-
-  function onJoin(e: FormEvent<HTMLButtonElement>) {
-    e.preventDefault();
-    if (lobbyID.length < 3) {
-      console.warn("lobby id is probably more than 3 characters");
-      return;
-    }
-    socket.emit("join_lobby", { lobbyID });
-  }
-
   return (
     <div className={css(hostStyles.form)}>
       <Host socket={socket} />
