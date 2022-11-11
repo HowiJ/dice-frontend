@@ -39,7 +39,7 @@ function Player({
   }, [socket]);
 
   return (
-    <div className={css(styles.main)}>
+    <div className={css(styles.main, !isViewer && styles.otherPlayer)}>
       <div className={css(styles.actions)}>
         <button
           className={css(styles.action)}
@@ -64,10 +64,8 @@ function Player({
         </button>
       </div>
       <div>
-        <div>
-          {player.name} {hostID === player.id && `<host>`}
-        </div>
-        <div>Number of dice held: {player.diceCount}</div>
+        {hostID === player.id && <div>&lt;host&gt;</div>}
+        <div>{player.name}</div>
         <div>Last Rolled at: {player.lastRolledAt}</div>
         <div className={css(styles.hand)}>
           {player.dice.map((value: number, i: number) => (
@@ -87,6 +85,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     display: "flex",
     gap: "8px",
+  },
+  otherPlayer: {
+    background: "#DDDEEE",
+    color: "#AAAAAA",
   },
   actions: {
     flex: "0 0 auto",
