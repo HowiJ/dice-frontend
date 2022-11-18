@@ -9,7 +9,7 @@ type Props = Readonly<{
   socket: Socket;
 }>;
 
-function LobbyForm({ socket }: Props): React.ReactElement | null {
+function LobbyForm({ socket }: Props): ReactElement {
   return (
     <div className={css(hostStyles.form)}>
       <Host socket={socket} />
@@ -109,10 +109,10 @@ const hostStyles = StyleSheet.create({
     // minWidth: "230px",
     padding: "16px",
     borderRadius: "8px",
-    background: "#FFFFFF",
+    background: "#1D1E33",
     margin: "auto",
     marginTop: "32px",
-    border: "1px solid #EEEEEE",
+    border: "1px solid #1D1E33",
   },
   text: {
     flex: "1 1 auto",

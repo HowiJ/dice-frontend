@@ -4,6 +4,7 @@ import io from "socket.io-client";
 import LobbyForm from "LobbyForm";
 import Profile from "Profile";
 import Game from "Game";
+import Lobby from "Lobby";
 
 const socket = io();
 
@@ -49,13 +50,12 @@ function App(_: Props): React.ReactElement {
       socket.off("reset_game");
     };
   }, []);
-
   return (
     <div className={css(styles.main)}>
       <div>
         <Profile socket={socket} />
       </div>
-      {lobbyID == null && <LobbyForm socket={socket} />}
+      {lobbyID == null && <Lobby socket={socket} />}
       {lobbyID != null && (
         <Game
           socket={socket}
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   main: {
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "#1D1E33",
   },
 });
 
