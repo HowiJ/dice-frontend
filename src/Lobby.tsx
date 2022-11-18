@@ -33,8 +33,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#1D1E33",
   },
   words: {
-    // display: "flex",
-    // flexDirection: "column",
     textAlign: "center",
   },
   top: {
@@ -64,5 +62,3 @@ const styles = StyleSheet.create({
 });
 
 export default Lobby;
-
-// config on save for prettier
