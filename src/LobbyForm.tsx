@@ -9,7 +9,7 @@ type Props = Readonly<{
   socket: Socket;
 }>;
 
-function LobbyForm({ socket }: Props): ReactElement {
+function LobbyForm({ socket }: Props): ReactElement | null {
   return (
     <div className={css(hostStyles.form)}>
       <Host socket={socket} />
