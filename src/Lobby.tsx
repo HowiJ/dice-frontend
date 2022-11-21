@@ -13,7 +13,7 @@ function Lobby({ socket }: Props): ReactElement | null {
   return (
     <div>
       <div className={css(styles.top)}>
-        <img className={css(styles.logo)} src={logo} alt="" />
+        <img className={css(styles.logo)} src={logo} alt="logo" />
       </div>
       <div className={css(styles.words)}>
         <h1 className={css(styles.dicey)}>DICEY</h1>
@@ -47,14 +47,14 @@ const styles = StyleSheet.create({
   },
   dicey: {
     fontWeight: "bold",
-    fontSize: "40pt",
+    fontSize: "40px",
     color: "#FFFFFF",
     letterSpacing: "2px",
     marginBottom: 0,
   },
   iRoll: {
     fontWeight: 500,
-    fontSize: "16pt",
+    fontSize: "16px",
     letterSpacing: "1px",
     color: "#BA9CFC",
     marginTop: 0,

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { css, StyleSheet } from "aphrodite";
 import io from "socket.io-client";
-import LobbyForm from "LobbyForm";
 import Profile from "Profile";
 import Game from "Game";
 import Lobby from "Lobby";
@@ -52,9 +51,6 @@ function App(_: Props): React.ReactElement {
   }, []);
   return (
     <div className={css(styles.main)}>
-      <div>
-        <Profile socket={socket} />
-      </div>
       {lobbyID == null && <Lobby socket={socket} />}
       {lobbyID != null && (
         <Game
@@ -65,6 +61,7 @@ function App(_: Props): React.ReactElement {
           hostID={hostID ?? ""}
         />
       )}
+      <p className={css(styles.version)}>Dicey v1.0 </p>
     </div>
   );
 }
@@ -74,6 +71,18 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#1D1E33",
+    height: "100vh",
+  },
+  version: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    textAlign: "center",
+    height: "100vh",
+    fontWeight: 500,
+    fontSize: "12px",
+    letterSpacing: ".75px",
+    color: "#BA9CFC",
   },
 });
 
