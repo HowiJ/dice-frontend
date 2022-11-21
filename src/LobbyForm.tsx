@@ -109,10 +109,8 @@ const hostStyles = StyleSheet.create({
     // minWidth: "230px",
     padding: "16px",
     borderRadius: "8px",
-    background: "#1D1E33",
     margin: "auto",
     marginTop: "32px",
-    border: "1px solid #1D1E33",
   },
   text: {
     flex: "1 1 auto",
