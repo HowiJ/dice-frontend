@@ -1,7 +1,7 @@
 import type { Socket } from "socket.io-client";
 
 import LobbyForm from "LobbyForm";
-import React from "react";
+import React, { ReactElement } from "react";
 import { css, StyleSheet } from "aphrodite";
 import logo from "./static/logo.png";
 
@@ -9,7 +9,7 @@ type Props = Readonly<{
   socket: Socket;
 }>;
 
-const Lobby = ({ socket }: Props) => {
+function Lobby({ socket }: Props): ReactElement | null {
   return (
     <div>
       <div className={css(styles.top)}>
@@ -24,7 +24,7 @@ const Lobby = ({ socket }: Props) => {
       </div>
     </div>
   );
-};
+}
 
 const styles = StyleSheet.create({
   main: {
