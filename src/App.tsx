@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { css, StyleSheet } from "aphrodite";
 import io from "socket.io-client";
-import Profile from "Profile";
 import Game from "Game";
 import Lobby from "Lobby";
 
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
   main: {
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#1D1E33",
     height: "100vh",
   },
   version: {
