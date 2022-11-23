@@ -9,7 +9,7 @@ type Props = Readonly<{
   socket: Socket;
 }>;
 
-function Lobby({ socket }: Props): ReactElement | null {
+function Lobby({ socket }: Props): ReactElement {
   return (
     <div>
       <div className={css(styles.top)}>
@@ -36,9 +36,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   top: {
-    flexDirection: "column",
     textAlign: "center",
-    justifyContent: "center",
   },
   logo: {
     marginTop: "50px",
