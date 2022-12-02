@@ -4,26 +4,31 @@ import type { Socket } from "socket.io-client";
 import React from "react";
 import { StyleSheet, css } from "aphrodite";
 import useFormActions from "useFormActions";
+import Button from "./common/Button";
+import TextInput from "./common/TextInput";
 
 type Props = Readonly<{
   socket: Socket;
+  onClick?: React.MouseEventHandler;
 }>;
 
-function LobbyForm({ socket }: Props): React.ReactElement {
+function LobbyForm({ socket, onClick }: Props): React.ReactElement {
   return (
     <div className={css(hostStyles.form)}>
-      <Host socket={socket} />
-      <div className={css(hostStyles.or)}>- or -</div>
-      <Join socket={socket} />
+      <Host socket={socket} onClick={onClick} />
+      <div className={css(hostStyles.or)}></div>
+      <Join socket={socket} onClick={onClick} />
     </div>
   );
 }
 
 type HostProps = Readonly<{
   socket: Socket;
+  onClick?: any;
+  onChange?: any;
 }>;
 
-function Host({ socket }: HostProps): ReactElement {
+function Host({ socket, onClick }: HostProps): ReactElement {
   function onHost(e: FormEvent<HTMLButtonElement>): void {
     e.preventDefault();
     socket.emit("join_lobby", { lobbyID: null });
@@ -31,17 +36,32 @@ function Host({ socket }: HostProps): ReactElement {
 
   return (
     <div className={css(hostStyles.row)}>
-      <div className={css(hostStyles.text)}>Create a new game</div>
+      <div>
+        <Button
+          background="transparent"
+          theme="blue"
+          label="Create a new game"
+          onClick={onClick}
+          width={260}
+        />
+      </div>
       <div>
         <button onClick={onHost} className={css(hostStyles.button)}>
-          &gt;
+          <Button
+            background="transparent"
+            theme="blue"
+            label="picture"
+            isLabelHidden={true}
+            icon="arrow-blue"
+            onClick={onClick}
+          />
         </button>
       </div>
     </div>
   );
 }
 
-function Join({ socket }: HostProps): ReactElement {
+function Join({ socket, onClick }: HostProps): ReactElement {
   const [lobbyID, onChangeLobbyID] = useFormActions();
 
   function onJoinLobby(e: FormEvent<HTMLButtonElement>): void {
@@ -56,16 +76,27 @@ function Join({ socket }: HostProps): ReactElement {
   return (
     <div className={css(hostStyles.row)}>
       <div>
-        <input
-          className={css(hostStyles.input)}
-          placeholder="Join a lobby using a name"
+        <TextInput
+          width={223}
+          placeholder="Join a lobby"
+          theme="purple"
           onChange={onChangeLobbyID}
           value={lobbyID}
         />
       </div>
       <div>
-        <button onClick={onJoinLobby} className={css(hostStyles.button)}>
-          &gt;
+        <button
+          onClick={onJoinLobby}
+          className={css(hostStyles.button, hostStyles.button2)}
+        >
+          <Button
+            background="transparent"
+            theme="purple"
+            label="picture"
+            isLabelHidden={true}
+            icon="arrow-purple"
+            onClick={onClick}
+          />
         </button>
       </div>
     </div>
@@ -79,16 +110,26 @@ const hostStyles = StyleSheet.create({
     fontSize: "8px",
   },
   button: {
+    padding: "0px",
+    boxSizing: "border-box",
     height: "100%",
     border: "none",
-    borderRadius: "0 8px 8px 0",
+    borderRadius: "60px",
     minWidth: "32px",
-    backgroundColor: "#EEEEEE",
+    backgroundColor: "#1D1E33",
     ":hover": {
-      backgroundColor: "#DDDDDD",
+      backgroundColor: "#069AB4",
     },
     ":active": {
-      backgroundColor: "#CCCCCC",
+      backgroundColor: "#9CF6FC",
+    },
+  },
+  button2: {
+    ":hover": {
+      backgroundColor: "#7139E0",
+    },
+    ":active": {
+      backgroundColor: "#BA9CFC",
     },
   },
   input: {
@@ -96,9 +137,9 @@ const hostStyles = StyleSheet.create({
     fontSize: "12px",
     minWidth: "160px",
     fontFamily: "Arial",
-    border: "1px solid #EEEEEE",
+    border: "none",
     borderRadius: "8px 0 0 8px",
-    "::placeholder": {
+    "input::placeholder": {
       fontSize: "12px",
       fontFamily: "Arial",
     },
