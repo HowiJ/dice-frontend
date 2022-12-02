@@ -9,15 +9,14 @@ import TextInput from "./common/TextInput";
 
 type Props = Readonly<{
   socket: Socket;
-  onClick?: React.MouseEventHandler;
 }>;
 
-function LobbyForm({ socket, onClick }: Props): React.ReactElement {
+function LobbyForm({ socket }: Props): React.ReactElement {
   return (
     <div className={css(hostStyles.form)}>
-      <Host socket={socket} onClick={onClick} />
+      <Host socket={socket} />
       <div className={css(hostStyles.or)}></div>
-      <Join socket={socket} onClick={onClick} />
+      <Join socket={socket} />
     </div>
   );
 }
