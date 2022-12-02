@@ -68,6 +68,10 @@ const styles = StyleSheet.create({
     background: "transparent",
     borderRadius: "60px",
     alignSelf: "flex-start",
+    "::placeholder": {
+      color: "#FFFFFF",
+      textAlign: "center",
+    },
   },
 });
 
