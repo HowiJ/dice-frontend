@@ -4,12 +4,11 @@ import type { Socket } from "socket.io-client";
 import { StyleSheet, css } from "aphrodite";
 import Button from "./common/Button";
 
-type HostProps = Readonly<{
+type Props = Readonly<{
   socket: Socket;
-  onClick: () => void;
 }>;
 
-function Host({ socket }: HostProps): ReactElement {
+function Host({ socket }: Props): ReactElement {
   function onHost(): void {
     socket.emit("join_lobby", { lobbyID: null });
   }
@@ -23,30 +22,19 @@ function Host({ socket }: HostProps): ReactElement {
         onClick={onHost}
         width={260}
       />
-      <div>
-        <Button
-          background="transparent"
-          theme="blue"
-          label="picture"
-          isLabelHidden={true}
-          icon="arrow-blue"
-          onClick={onHost}
-        />
-      </div>
+      <Button
+        background="transparent"
+        theme="blue"
+        label="picture"
+        isLabelHidden={true}
+        icon="arrow-blue"
+        onClick={onHost}
+      />
     </div>
   );
 }
 
 const hostStyles = StyleSheet.create({
-  button: {
-    padding: "0px",
-    boxSizing: "border-box",
-    height: "100%",
-    border: "none",
-    borderRadius: "60px",
-    minWidth: "32px",
-    backgroundColor: "#1D1E33",
-  },
   row: {
     flex: "1 1 auto",
     display: "flex",

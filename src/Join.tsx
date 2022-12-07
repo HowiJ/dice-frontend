@@ -6,13 +6,11 @@ import useFormActions from "useFormActions";
 import Button from "./common/Button";
 import TextInput from "./common/TextInput";
 
-type JoinProps = Readonly<{
+type Props = Readonly<{
   socket: Socket;
-  onClick: () => void;
-  onChange: () => void;
 }>;
 
-function Join({ socket }: JoinProps): ReactElement {
+function Join({ socket }: Props): ReactElement {
   const [lobbyID, onChangeLobbyID] = useFormActions();
 
   function onJoinLobby(): void {
@@ -25,39 +23,26 @@ function Join({ socket }: JoinProps): ReactElement {
 
   return (
     <div className={css(hostStyles.row)}>
-      <div>
-        <TextInput
-          width={223}
-          placeholder="Join a lobby"
-          theme="purple"
-          onChange={onChangeLobbyID}
-          value={lobbyID}
-        />
-      </div>
-      <div>
-        <Button
-          background="transparent"
-          theme="purple"
-          label="picture"
-          isLabelHidden={true}
-          icon="arrow-purple"
-          onClick={onJoinLobby}
-        />
-      </div>
+      <TextInput
+        width={223}
+        placeholder="Join a lobby"
+        theme="purple"
+        onChange={onChangeLobbyID}
+        value={lobbyID}
+      />
+      <Button
+        background="transparent"
+        theme="purple"
+        label="picture"
+        isLabelHidden={true}
+        icon="arrow-purple"
+        onClick={onJoinLobby}
+      />
     </div>
   );
 }
 
 const hostStyles = StyleSheet.create({
-  button: {
-    padding: "0px",
-    boxSizing: "border-box",
-    height: "100%",
-    border: "none",
-    borderRadius: "60px",
-    minWidth: "32px",
-    backgroundColor: "#1D1E33",
-  },
   row: {
     flex: "1 1 auto",
     display: "flex",
