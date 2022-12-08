@@ -22,7 +22,7 @@ function Join({ socket }: Props): ReactElement {
   }
 
   return (
-    <div className={css(hostStyles.row)}>
+    <div className={css(styles.row)}>
       <TextInput
         width={223}
         placeholder="Join a lobby"
@@ -42,7 +42,7 @@ function Join({ socket }: Props): ReactElement {
   );
 }
 
-const hostStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   row: {
     flex: "1 1 auto",
     display: "flex",
