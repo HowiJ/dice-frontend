@@ -11,14 +11,14 @@ type Props = Readonly<{
 
 function LobbyForm({ socket }: Props): React.ReactElement {
   return (
-    <div className={css(Styles.form)}>
+    <div className={css(styles.form)}>
       <Host socket={socket} />
       <Join socket={socket} />
     </div>
   );
 }
 
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   form: {
     display: "flex",
     flexDirection: "column",
