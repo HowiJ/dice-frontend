@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { css, StyleSheet } from "aphrodite";
-import io from "socket.io-client";
-import Game from "Game";
-import Lobby from "Lobby";
+import React, { useEffect, useState } from 'react';
+import { css, StyleSheet } from 'aphrodite';
+import io from 'socket.io-client';
+import Game from 'game/Game';
+import Lobby from 'Lobby';
 
 const socket = io();
 
@@ -24,28 +24,28 @@ function App(_: Props): React.ReactElement {
   const [viewerID, setViewerID] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("listening to sockets");
-    socket.on("connect", () => {
-      console.log("connected");
+    console.log('listening to sockets');
+    socket.on('connect', () => {
+      console.log('connected');
     });
 
-    socket.on("disconnect", () => {
-      console.log("dcs");
+    socket.on('disconnect', () => {
+      console.log('dcs');
     });
 
-    socket.on("update_lobby", (lobby) => {
+    socket.on('update_lobby', (lobby) => {
       setLobbyDetails(lobby);
     });
 
-    socket.on("update_viewer", ({ id }) => {
+    socket.on('update_viewer', ({ id }) => {
       setViewerID(id);
     });
 
     return () => {
-      socket.off("connect");
-      socket.off("disconnect");
-      socket.off("update_lobby");
-      socket.off("reset_game");
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('update_lobby');
+      socket.off('reset_game');
     };
   }, []);
   return (
@@ -54,10 +54,10 @@ function App(_: Props): React.ReactElement {
       {lobbyID != null && (
         <Game
           socket={socket}
-          viewerID={viewerID ?? ""}
+          viewerID={viewerID ?? ''}
           players={players}
           lobbyID={lobbyID}
-          hostID={hostID ?? ""}
+          hostID={hostID ?? ''}
         />
       )}
       <p className={css(styles.version)}>Dicey v1.0 </p>
@@ -67,17 +67,17 @@ function App(_: Props): React.ReactElement {
 
 const styles = StyleSheet.create({
   main: {
-    display: "flex",
-    flexDirection: "column",
-    height: "100vh",
-    justifyContent: "space-between",
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+    justifyContent: 'space-between',
   },
   version: {
-    textAlign: "center",
+    textAlign: 'center',
     fontWeight: 500,
-    fontSize: "12px",
-    letterSpacing: ".75px",
-    color: "#BA9CFC",
+    fontSize: '12px',
+    letterSpacing: '.75px',
+    color: '#BA9CFC',
   },
 });
 

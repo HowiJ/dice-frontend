@@ -1,9 +1,9 @@
-import { Socket } from "socket.io-client";
+import { Socket } from 'socket.io-client';
 
-import React, { useState, useEffect } from "react";
-import { css, StyleSheet } from "aphrodite";
+import React, { useState, useEffect } from 'react';
+import { css, StyleSheet } from 'aphrodite';
 
-import Dice from "Dice";
+import Dice from 'game/Dice';
 
 type SerializedPlayer = {
   name: string;
@@ -29,17 +29,17 @@ function Player({
   const [allVisible, setAllVisible] = useState<boolean>(false);
 
   function onClick(change: number) {
-    socket.emit("dice_count_update", { playerID: player.id, change });
+    socket.emit('dice_count_update', { playerID: player.id, change });
   }
 
   useEffect(() => {
-    socket.on("update_lobby", ({ allVisible }) => {
+    socket.on('update_lobby', ({ allVisible }) => {
       setAllVisible(allVisible);
     });
   }, [socket]);
 
   return (
-    <div className={css(styles.main, !isViewer && styles.otherPlayer)}>
+    <div className={css(styles.main)}>
       <div className={css(styles.actions)}>
         <button
           className={css(styles.action)}
@@ -63,13 +63,19 @@ function Player({
           R
         </button>
       </div>
-      <div>
-        {hostID === player.id && <div>&lt;host&gt;</div>}
-        <div>{player.name}</div>
-        <div>Last Rolled at: {player.lastRolledAt}</div>
+      <div className={css(styles.view)}>
+        <div>
+          {isViewer ? <span>(You)</span> : ''} {player.name}{' '}
+          {hostID === player.id && <span>(host)</span>}{' '}
+        </div>
         <div className={css(styles.hand)}>
           {player.dice.map((value: number, i: number) => (
-            <Dice value={value} key={i} isHidden={!isViewer && !allVisible} />
+            <Dice
+              isHidden={!isViewer && !allVisible}
+              key={i}
+              ownership={isViewer ? 'self' : 'other'}
+              value={value}
+            />
           ))}
         </div>
       </div>
@@ -79,33 +85,38 @@ function Player({
 
 const styles = StyleSheet.create({
   main: {
-    padding: "32px 8px",
-    borderBottom: "1px solid #BBBBBB",
-    flex: "0 0 auto",
-    flexDirection: "row",
-    display: "flex",
-    gap: "8px",
+    backgroundColor: '#333357',
+    borderRadius: '32px',
+    color: '#FFFFFF',
+    display: 'flex',
+    flex: '0 0 auto',
+    flexDirection: 'row',
+    gap: '8px',
+    padding: '32px 24px',
   },
-  otherPlayer: {
-    background: "#DDDEEE",
-    color: "#AAAAAA",
+  view: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    justifyContent: 'space-between',
   },
   actions: {
-    flex: "0 0 auto",
-    display: "flex",
-    flexDirection: "column",
-    gap: "4px",
-    minWidth: "32px",
+    flex: '0 0 auto',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+    minWidth: '32px',
   },
   action: {
-    flex: "1 1 auto",
-    height: "100%",
-    minWidth: "16px",
+    flex: '1 1 auto',
+    height: '100%',
+    minWidth: '16px',
   },
   hand: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "2px",
+    display: 'flex',
+    flexDirection: 'row',
+    gap: '2px',
+    flexWrap: 'wrap',
   },
 });
 
